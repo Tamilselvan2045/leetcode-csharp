@@ -1,0 +1,31 @@
+//Brute force - O(n²)
+public class Solution {
+    public bool ContainsNearbyDuplicate(int[] nums, int k) {
+        for (int i=0;i<nums.Length;i++){
+            for(int j=i+1;j<nums.Length;j++){
+                if(nums[i]==nums[j]){
+                    if((Math.Abs(i-j))<=k){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+}
+
+//Optimzed one O(n)
+public class Solution {
+    public bool ContainsNearbyDuplicate(int[] nums, int k) {
+        Dictionary<int,int> mapDict = new Dictionary<int,int>();
+        for (int i=0;i<nums.Length;i++){
+            if(mapDict.ContainsKey(nums[i])){
+                if(i-mapDict[nums[i]]<=k){
+                    return true;
+                }
+            }
+            mapDict[nums[i]]=i;
+        }
+        return false;
+    }
+}
