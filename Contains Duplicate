@@ -1,0 +1,30 @@
+//Brute-force O(n²)
+
+public class Solution {
+    public bool ContainsDuplicate(int[] nums) {
+        List<int> current = new List<int>();
+        foreach (int i in nums){
+            if(current.Contains(i)){
+                return true;
+            }
+            current.Add(i);
+        }
+        return false;
+    }
+}
+
+//Optimized one O(1) 
+//HashSet Won't allow Duplicate 
+//25%10 
+public class Solution {
+    public bool ContainsDuplicate(int[] nums) {
+        HashSet<int> current = new HashSet<int>();
+        foreach (int i in nums){
+            if(!current.Add(i){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
