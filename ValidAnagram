@@ -1,0 +1,59 @@
+//Brute-force O(n)
+public class Solution {
+    public bool IsAnagram(string s, string t) {
+        Dictionary<char,int> mapDictS = new Dictionary<char,int>();
+        Dictionary<char,int> mapDictT = new Dictionary<char,int>();
+        if(s.Length!=t.Length){
+            return false;
+        }
+        for (int i=0;i<s.Length;i++){
+            if(mapDictS.ContainsKey(s[i])){
+                mapDictS[s[i]]=mapDictS[s[i]]+1;
+                continue;
+            }
+            mapDictS[s[i]]=1;
+        }
+        for (int i=0;i<t.Length;i++){
+            if(mapDictT.ContainsKey(t[i])){
+                mapDictT[t[i]]=mapDictT[t[i]]+1;
+                continue;
+            }
+            mapDictT[t[i]]=1;
+        }
+
+        for(int i=0;i<s.Length;i++){
+            char Temp = s[i];
+            if(!mapDictT.ContainsKey(Temp) || mapDictS[Temp]!=mapDictT[Temp]){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+//Optized one Reduced one Dict and For loop
+public class Solution {
+    public bool IsAnagram(string s, string t) {
+        Dictionary<char,int> mapDict = new Dictionary<char,int>();
+        if(s.Length!=t.Length){
+            return false;
+        }
+        for (int i=0;i<s.Length;i++){
+            if(!mapDict.ContainsKey(s[i]))
+                mapDict[s[i]]=0;
+            mapDict[s[i]]++;
+            if(!mapDict.ContainsKey(t[i]))
+                mapDict[t[i]]=0;
+            mapDict[t[i]]--;
+        }
+   
+
+        foreach(var p in mapDict){
+            if(p.Value!=0){
+                return false;
+            }
+        }
+        return true;
+    }
+}
