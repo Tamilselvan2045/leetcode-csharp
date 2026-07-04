@@ -1,0 +1,66 @@
+//Brute-Force 
+public class Solution {
+    public IList<IList<string>> GroupAnagrams(string[] strs) {
+        HashSet<string> visited = new HashSet<string>();
+        Dictionary<string, IList<string>> map = new Dictionary<string, IList<string>>();
+        for(int i=0;i<strs.Length;i++){
+            Dictionary<char,int> mapDict = new Dictionary<char,int>();
+            if (visited.Contains(strs[i]))
+                    continue;
+            if(!map.ContainsKey(strs[i]))
+                map[strs[i]]=new List<string>();
+            for(int j=0;j<strs[i].Length;j++){
+                if(!mapDict.ContainsKey(strs[i][j]))
+                    mapDict[strs[i][j]]=0;
+                mapDict[strs[i][j]]++;
+            }
+            for(int z=i+1;z<strs.Length;z++){
+                Dictionary<char,int> mapDictCopy = new Dictionary<char,int>(mapDict);
+                if (strs[i].Length != strs[z].Length) continue;
+                else{
+                    for(int x=0;x<strs[z].Length;x++){
+                        if(!mapDictCopy.ContainsKey(strs[z][x]))
+                            mapDictCopy[strs[z][x]]=0;
+                        mapDictCopy[strs[z][x]]--;
+                    }
+                }
+                bool  allZero = true;
+                foreach(var pair in mapDictCopy){
+                    if(pair.Value!=0){
+                        allZero =false;
+                        break;
+                    }
+                }
+                if(allZero){
+                    map[strs[i]].Add(strs[z]);
+                    visited.Add(strs[z]);
+                }
+            }
+            map[strs[i]].Add(strs[i]);
+            visited.Add(strs[i]);
+
+        }
+        return map.Values.ToList();
+    }
+}
+
+//Optimzed one 
+ public IList<IList<string>> GroupAnagrams(string[] strs) {
+
+        Dictionary<string, IList<string>> map = new Dictionary<string, IList<string>>();
+
+        foreach (var s in strs)
+        {
+            char[] arr = s.ToCharArray();
+            Array.Sort(arr);
+            string key = new string(arr);
+
+            if (!map.ContainsKey(key))
+                map[key] = new List<string>();
+
+            map[key].Add(s);
+        }
+
+        return map.Values.ToList();
+    }
+}
